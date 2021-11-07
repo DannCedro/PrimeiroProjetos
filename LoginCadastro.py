@@ -1,4 +1,5 @@
 import PySimpleGUI as sg
+import easygui as eg
 
 #DEFINIR PROPRIEDADES DA JANELA 1 - LOGAR NO SISTEMA
 def Entrar():
@@ -14,11 +15,12 @@ def Entrar():
 def Cadastrar():
     sg.theme('GreenTan')
     Layout = [
-        [sg.Text('Nome', size=(10, 0)), sg.Input(size=(30,0), key='nome')],
-        [sg.Text('CPF', size=(10, 0)), sg.Input(size=(30,0), key='cpf')],
+        [sg.Text('Nome', size=(10, 0)), sg.Input(size=(50, 0), key='nome')],
+        [sg.Text('CPF', size=(10, 0)), sg.Input(size=(50, 0), key='cpf')],
+        [sg.Text('Arquivo', size=(10, 0)), sg.Input(size=(50, 0), key='arquivo'), sg.Button('...')],
         [sg.Checkbox('Fumante?', key='fuma')],
         [sg.Checkbox('Trabalhador?', key='trabalha')],
-        [sg.Output(size=(30, 10))],
+        [sg.Output(size=(70, 10))],
         [sg.Button('Cadastrar'), sg.Button('Fechar')]
     ]
     return sg.Window('Sistema de Cadastro', layout=Layout, finalize=True)
@@ -74,12 +76,19 @@ while True:
                 else:
                     trabalha = 'Nao'
 
+                print('O usuário ' + str(nome) + ' foi cadastrado com sucesso!\n')
                 print('Nome: ' + str(nome))
                 print('CPF: ' + str(cpf))
                 print('Fumante: ' + str(fuma))
                 print('Trabalhador: ' + str(trabalha))
 
                 sg.popup('Usuário cadastrado com sucesso!')
+
+        #SELECIONANDO ARUQIVO
+        if event == '...':
+            path = eg.fileopenbox()
+            janela2.Element('arquivo').Update(path, disabled=True)
+            print('OK')
 
         #AO FECHAR JANELA 2 DE CADASTRO
         if event == 'Fechar':
